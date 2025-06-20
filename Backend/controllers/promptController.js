@@ -16,6 +16,7 @@ export const createPrompt = async (req, res) => {
   }
 };
 
+
 export const getAllPrompts = async (req, res) => {
   try {
     const prompts = await Prompt.find().sort({ createdAt: -1 });
