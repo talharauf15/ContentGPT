@@ -30,3 +30,12 @@ export const createPromptLog = async (req, res) => {
     res.status(500).json({ error: "Failed to save prompt log" });
   }
 };
+
+export const getAllPromptLogs = async (req, res) => {
+    try {
+      const logs = await PromptLog.find().sort({ createdAt: -1 });
+      res.status(200).json(logs);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch logs" });
+    }
+  };
