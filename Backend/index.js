@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import promptRoutes from "./routes/promptRoutes.js";
 import promptLogRoutes from "./routes/promptLogRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/prompts", promptRoutes);
 app.use("/api/prompt-logs", promptLogRoutes);
+app.use("/api/users", userRoutes);
 
 // DB connection
 connectDB();
