@@ -33,7 +33,11 @@ export const createPromptLog = async (req, res) => {
 
 export const getAllPromptLogs = async (req, res) => {
     try {
-      const logs = await PromptLog.find().sort({ createdAt: -1 });
+      const { userId } = req.query;
+      if (!userId) {
+        return res.status(400).json({ error: "Missing userId in query parameters" });
+      }
+      const logs = await PromptLog.find({ userId }).sort({ createdAt: -1 });
       res.status(200).json(logs);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch logs" });

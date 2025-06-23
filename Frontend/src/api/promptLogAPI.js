@@ -17,6 +17,8 @@ export const createPromptLog = async ({ prompt, response, userId, userName }) =>
 };
 
 
-export const getAllPromptLogs = async () => {
-  return await api.get("/prompt-logs");
+export const getAllPromptLogs = async (userId) => {
+  return await api.get(`/prompt-logs`,{
+    params: {userId},
+  });
 };
