@@ -1,6 +1,5 @@
 .prompt-form-container {
-    min-height: 80vh;
-
+    min-height: 80vh; 
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: 2rem 1rem;
     display: flex;
@@ -218,6 +217,7 @@
   }
   
   .submit-button {
+    font-family: inherit;
     display: flex;
     align-items: center;
     justify-content: center;
