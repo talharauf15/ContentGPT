@@ -21,7 +21,7 @@ const promptLogSchema = new mongoose.Schema(
     }
   },
   {
-    timestamps: true, // Automatically adds createdAt and updatedAt
+    timestamps: true, 
   }
 );
 

@@ -1,13 +1,11 @@
-// pages/UserProfile.jsx or inside Home.jsx
 import { useUser } from "@clerk/clerk-react";
 import { useEffect } from "react";
-import { saveUserToBackend } from "../api/userAPI"; // 👈 You'll create this
+import { saveUserToBackend } from "../api/userAPI"; 
 
 const UserProfile = () => {
     const { user } = useUser();
 
     useEffect(() => {
-        // console.log(user);
         if (user) {
             const userData = {
                 userId: user.id,
@@ -24,8 +22,7 @@ const UserProfile = () => {
                 createdAtClerk: user.createdAt,
                 lastSignInAt: user.lastSignInAt,
             };
-            // console.log("userData :", userData);
-            saveUserToBackend(userData); // Send to backend
+            saveUserToBackend(userData); 
         }
     }, [user]);
 

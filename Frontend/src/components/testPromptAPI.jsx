@@ -1,5 +1,4 @@
 //access it on this route:http://localhost:5173/test-prompt
-// src/components/TestPromptAPI.jsx
 import { useState } from "react";
 import { createPrompt } from "../api/promptAPI";
 

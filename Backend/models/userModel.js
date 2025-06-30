@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      index: true, // For faster lookup
+      index: true, 
     },
     username: {
       type: String,

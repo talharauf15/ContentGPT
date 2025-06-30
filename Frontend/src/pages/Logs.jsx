@@ -1,5 +1,5 @@
 import PromptLogList from "../components/PromptLogList";
-import "./Logs.css"; // Add this line
+import "./Logs.css"; 
 
 const Logs = () => (
   <div>

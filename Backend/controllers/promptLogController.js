@@ -1,4 +1,3 @@
-// controller/promptLogController.js
 import { OpenAI } from "openai";
 import PromptLog from "../models/promptLog.js";
 

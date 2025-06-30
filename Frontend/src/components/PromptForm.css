@@ -29,8 +29,7 @@
       transform: translateY(0);
     }
   }
-  
-  /* Header Styles */
+
   .form-header {
     display: flex;
     justify-content: space-between;
@@ -71,8 +70,7 @@
     color: #6b7280;
     margin: 0.25rem 0 0 0;
   }
-  
-  /* Toggle Styles */
+
   .mode-toggle {
     display: flex;
     align-items: center;
@@ -110,17 +108,12 @@
     transition: transform 0.3s ease;
   }
   
-  /* .toggle-button:hover {
-    transform: scale(1.1);
-  } */
-  
   .icon-toggle {
     width: 24px;
     height: 24px;
     color: #3B82F6;
   }
-  
-  /* Icon Sizes */
+
   .icon-tiny {
     width: 12px;
     height: 12px;
@@ -141,8 +134,7 @@
     height: 48px;
     color: #9ca3af;
   }
-  
-  /* Error Message */
+
   .error-message {
     background: linear-gradient(135deg, #fee2e2, #fecaca);
     border: 1px solid #fca5a5;
@@ -161,13 +153,11 @@
     25% { transform: translateX(-5px); }
     75% { transform: translateX(5px); }
   }
-  
-  /* Form Content */
+
   .form-content {
     margin-bottom: 2rem;
   }
   
-  /* Manual Mode Styles */
   .prompt-form {
     display: flex;
     flex-direction: column;
@@ -245,7 +235,6 @@
     transform: none;
   }
   
-  /* Saved Mode Styles */
   .saved-title {
     display: flex;
     align-items: center;
@@ -336,7 +325,6 @@
     font-weight: 500;
   }
   
-  /* Response Section */
   .response-section {
     background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
     border: 1px solid #bae6fd;
@@ -379,7 +367,6 @@
     margin: 0;
   }
   
-  /* Loading Spinner */
   .loading-spinner {
     width: 20px;
     height: 20px;
@@ -399,7 +386,6 @@
     100% { transform: rotate(360deg); }
   }
   
-  /* Responsive Design */
   @media (max-width: 768px) {
     .prompt-form-container {
       padding: 1rem;

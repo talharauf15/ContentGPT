@@ -1,4 +1,3 @@
-// routes/promptRoutes.js
 import express from "express";
 import { createPrompt, getAllPrompts } from "../controllers/promptController.js";
 import { validatePrompt } from "../middleware/promptMiddleware.js";

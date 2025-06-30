@@ -1,5 +1,4 @@
 .prompt-log-container {
-  /* max-width: 1200px; */
   margin: 0 auto;
   padding: 2rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -7,7 +6,7 @@
   min-height: 100vh;
 }
 
-/* Header Styles */
+
 .header {
   margin-bottom: 2rem;
 }
@@ -84,7 +83,7 @@
   to { transform: rotate(360deg); }
 }
 
-/* Filters */
+
 .filters {
   display: flex;
   gap: 1rem;
@@ -129,7 +128,7 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* Loading State */
+
 .loading-state {
   display: flex;
   flex-direction: column;
@@ -154,7 +153,6 @@
   margin: 0;
 }
 
-/* Empty State */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -184,7 +182,7 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* Logs Grid */
+
 .logs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
@@ -203,7 +201,7 @@
   }
 }
 
-/* Log Card */
+
 .log-card {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 1rem;
@@ -285,7 +283,6 @@
   height: 0.875rem;
 }
 
-/* Log Content */
 .log-content {
   margin-bottom: 1.5rem;
 }
@@ -347,7 +344,7 @@
   color: #5a4a7a;
 }
 
-/* Log Card Footer */
+
 .log-card-footer {
   padding-top: 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -359,7 +356,7 @@
   font-style: italic;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .prompt-log-container {
     padding: 1rem;

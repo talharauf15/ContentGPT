@@ -9,7 +9,7 @@ export const createPromptLog = async ({ prompt, response, userId, userName }) =>
       userId,
       userName,
     });
-    return res.data; // only return useful data
+    return res.data; 
   } catch (error) {
     console.error("❌ Error creating prompt log:", error.response?.data || error.message);
     throw error.response?.data || error.message;
