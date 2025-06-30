@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/clerk-react";
 import Home from "./pages/Home";
 import Logs from "./pages/Logs";
+import TestPromptAPI from "./components/testPromptAPI";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
           <SignInButton mode="modal" />
         </div>
       </SignedOut>
-
+      
       <SignedIn>
         <Router>
           <nav style={{ display: "flex", gap: "1rem", padding: "1rem", borderBottom: "1px solid #ccc" }}>
@@ -25,6 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/logs" element={<Logs />} />
+            <Route path="/test-prompt" element={<TestPromptAPI />} />
           </Routes>
         </Router>
       </SignedIn>

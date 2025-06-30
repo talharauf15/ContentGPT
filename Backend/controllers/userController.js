@@ -1,67 +1,18 @@
-// controller/userController.js
 import User from "../models/userModel.js";
 
-// Create or update user in DB
 export const saveUser = async (req, res) => {
   try {
-    const {
-      userId,
-      username,
-      fullName,
-      firstName,
-      lastName,
-      email,
-      emailId,
-      passwordEnabled,
-      twoFactorEnabled,
-      hasVerifiedEmailAddress,
-      imageUrl,
-      createdAtClerk,
-      lastSignInAt,
-    } = req.body;
-
-    const existingUser = await User.findOne({ userId });
-
-    let user;
-    if (existingUser) {
-      user = await User.findOneAndUpdate(
-        { userId },
-        {
-          username,
-          fullName,
-          firstName,
-          lastName,
-          email,
-          emailId,
-          passwordEnabled,
-          twoFactorEnabled,
-          hasVerifiedEmailAddress,
-          imageUrl,
-          createdAtClerk,
-          lastSignInAt,
-        },
-        { new: true }
-      );
-    } else {
-      user = await User.create({
-        userId,
-        username,
-        fullName,
-        firstName,
-        lastName,
-        email,
-        emailId,
-        passwordEnabled,
-        twoFactorEnabled,
-        hasVerifiedEmailAddress,
-        imageUrl,
-        createdAtClerk,
-        lastSignInAt,
-      });
-    }
-
+    const fields = { ...req.body };
+    const user = await User.findOneAndUpdate(
+      { userId: fields.userId },
+      fields,
+      { new: true, upsert: true }
+    );
     res.status(200).json(user);
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({ error: "User with this userId already exists." });
+    }
     console.error("❌ Error saving user:", error);
     res.status(500).json({ error: "Failed to save user" });
   }
