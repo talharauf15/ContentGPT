@@ -4,6 +4,7 @@ import "./PromptForm.css";
 import { useUser } from "@clerk/clerk-react";
 import { createPromptLog } from "../api/promptLogAPI";
 import { getAllPrompts } from "../api/promptAPI";
+import LLMSelector from "./LLMSelector";
 
 const PromptForm = () => {
   const [prompt, setPrompt] = useState("");
@@ -13,6 +14,7 @@ const PromptForm = () => {
   const [manualMode, setManualMode] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedPromptId, setSelectedPromptId] = useState(null);
+  const [LlmProvider, setLlmProvider] = useState("openai"); 
 
   const { user } = useUser(); 
 
@@ -33,15 +35,8 @@ const PromptForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!user) {
-      setError("User not authenticated.");
-      return;
-    }
-
-    if (!prompt.trim()) {
-      setError("Please enter a prompt.");
-      return;
-    }
+    if (!user) return setError("User not authenticated.");
+    if (!prompt.trim()) return setError("Please enter a prompt.");
 
     setIsLoading(true);
     setError("");
@@ -52,8 +47,8 @@ const PromptForm = () => {
         response,
         userId: user.id,
         userName: user.username,
+        model: LlmProvider,
       });
-
       setResponse(result.response);
     } catch (error) {
       console.error("❌ Error submitting prompt:", error);
@@ -64,10 +59,7 @@ const PromptForm = () => {
   };
 
   const handleSavedPromptClick = async (selectedPrompt, promptId) => {
-    if (!user) {
-      setError("User not authenticated.");
-      return;
-    }
+    if (!user) return setError("User not authenticated.");
 
     setSelectedPromptId(promptId);
     setPrompt(selectedPrompt);
@@ -80,8 +72,8 @@ const PromptForm = () => {
         response,
         userId: user.id,
         userName: user.username,
+        model: LlmProvider,
       });
-
       setResponse(result.response);
     } catch (error) {
       console.error("❌ Error submitting saved prompt:", error);
@@ -140,6 +132,8 @@ const PromptForm = () => {
         )}
 
         <div className="form-content">
+          <LLMSelector selectedProvider={LlmProvider} onChange={setLlmProvider} />
+
           {manualMode ? (
             <div className="manual-mode">
               <form onSubmit={handleSubmit} className="prompt-form">
