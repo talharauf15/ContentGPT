@@ -391,6 +391,7 @@ import { getAllPrompts } from "../api/promptAPI";
 import { createPromptLog } from "../api/promptLogAPI";
 import { generateBrandStrategy } from "../api/brandingAPI";
 import LLMSelector from "./LLMSelector";
+import ReactMarkdown from "react-markdown";
 
 const PromptForm = () => {
   const [manualMode, setManualMode] = useState(true);
@@ -642,7 +643,7 @@ const PromptForm = () => {
               AI Response
             </h4>
             <div className="response-content">
-              <pre>{response}</pre>
+              <ReactMarkdown>{response}</ReactMarkdown>
             </div>
           </div>
         )}

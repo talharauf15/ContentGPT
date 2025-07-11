@@ -385,6 +385,17 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+.response-content,
+.response-content pre {
+  color: #000 !important;
+}
+
+.response-content pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+}
   
   @media (max-width: 768px) {
     .prompt-form-container {
