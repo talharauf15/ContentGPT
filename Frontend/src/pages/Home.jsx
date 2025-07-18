@@ -5,7 +5,7 @@ const Home = () => (
   <div>
     <h1>Prompt Submission</h1>
     <UserProfile/>
-    <PromptForm />
+    {/* <PromptForm /> */}
   </div>
 );
 

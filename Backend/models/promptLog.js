@@ -26,7 +26,11 @@ const promptLogSchema = new mongoose.Schema(
       required: true,
       enum: ["openai", "gemini"],
       default: "openai",
-    }
+    },
+    agent: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true, 

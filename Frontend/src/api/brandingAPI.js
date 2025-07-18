@@ -10,7 +10,7 @@ export const generateBrandStrategy = async ({
   model = "openai",
 }) => {
   try {
-    const response = await api.post("/prompts/generate-strategy", {
+    const response = await api.post("/brand-strategy/generate-strategy", {
       companyName,
       targetAudience,
       businessPurpose,

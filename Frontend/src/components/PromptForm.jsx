@@ -73,6 +73,7 @@ const PromptForm = () => {
           userId: user.id,
           userName: user.username,
           model: LlmProvider,
+          agent: 'brand-strategy',
         });
       }
     } catch (err) {
@@ -97,6 +98,7 @@ const PromptForm = () => {
         userId: user.id,
         userName: user.username,
         model: LlmProvider,
+        agent: 'brand-strategy',
       });
       setResponse(result.response);
     } catch (error) {

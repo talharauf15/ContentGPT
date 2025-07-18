@@ -1,7 +1,7 @@
 import api from "./axios";
 
 
-export const createPromptLog = async ({ prompt, response, userId, userName, model }) => {
+export const createPromptLog = async ({ prompt, response, userId, userName, model, agent }) => {
   try {
     const res = await api.post("/prompt-logs", {
       prompt,
@@ -9,6 +9,7 @@ export const createPromptLog = async ({ prompt, response, userId, userName, mode
       userId,
       userName,
       model,
+      agent,
     });
     return res.data; 
   } catch (error) {

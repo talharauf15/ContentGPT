@@ -10,10 +10,10 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export const createPromptLog = async (req, res) => {
   try {
-    const { prompt, userId, userName, model = "openai" } = req.body;
+    const { prompt, userId, userName, model = "openai", agent } = req.body;
 
-    if (!prompt || !userId || !userName) {
-      return res.status(400).json({ error: "Missing required fields: prompt, userId, userName." });
+    if (!prompt || !userId || !userName || !agent) {
+      return res.status(400).json({ error: "Missing required fields: prompt, userId, userName, agent." });
     }
 
     let reply = "";
@@ -41,6 +41,7 @@ export const createPromptLog = async (req, res) => {
       userId,
       userName,
       model,
+      agent,
     });
 
     res.status(201).json(newLog);

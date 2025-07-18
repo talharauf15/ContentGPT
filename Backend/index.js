@@ -2,9 +2,10 @@ import express from "express";
 import connectDB from "./db/connectDB.js";
 import dotenv from "dotenv";
 import cors from "cors";
-import promptRoutes from "./routes/promptRoutes.js";
+import brandStrategyAgentRoutes from "./routes/brandStrategyAgentRoutes.js";
 import promptLogRoutes from "./routes/promptLogRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import landingPageAgentRoutes from "./routes/landingPageAgentRoutes.js"
 
 dotenv.config();
 
@@ -19,7 +20,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
-app.use("/api/prompts", promptRoutes);
+app.use('/api/landing-page', landingPageAgentRoutes);
+app.use('/api/brand-strategy', brandStrategyAgentRoutes);
 app.use("/api/prompt-logs", promptLogRoutes);
 app.use("/api/users", userRoutes);
 

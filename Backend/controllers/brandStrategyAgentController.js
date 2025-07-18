@@ -1,4 +1,4 @@
-import Prompt from "../models/prompt.js";
+import BrandStrategyAgent from "../models/brandStrategyAgent.js";
 import PromptLog from "../models/promptLog.js";
 import { OpenAI } from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
@@ -15,8 +15,14 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 // ✅ Create a basic prompt (manual)
 export const createPrompt = async (req, res) => {
   try {
-    const { prompt } = req.body;
-    const newPrompt = await Prompt.create({ prompt });
+    const { companyName, targetAudience, businessPurpose, goal, customTags } = req.body;
+    const newPrompt = await BrandStrategyAgent.create({ 
+      companyName, 
+      targetAudience, 
+      businessPurpose, 
+      goal, 
+      customTags 
+    });
     res.status(201).json(newPrompt);
   } catch (error) {
     console.error("❌ Error saving prompt:", error);
@@ -27,7 +33,7 @@ export const createPrompt = async (req, res) => {
 // ✅ Get all saved prompts
 export const getAllPrompts = async (req, res) => {
   try {
-    const prompts = await Prompt.find().sort({ createdAt: -1 });
+    const prompts = await BrandStrategyAgent.find().sort({ createdAt: -1 });
     res.status(200).json(prompts);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch prompts" });
@@ -144,7 +150,7 @@ ${section}
 
     if (model === "openai") {
       const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-4o",
         messages: [{ role: "user", content: prompt }],
       });
       aiResponse = completion.choices[0]?.message?.content;
@@ -170,11 +176,12 @@ ${section}
       userId: "branding-generator",
       userName: "branding-form",
       model: usedModel,
+      agent: "brand-strategy",
     });
 
     res.status(200).json({ response: aiResponse });
   } catch (error) {
-    console.error("❌ Error generating brand strategy:", error.message);
-    res.status(500).json({ error: "Failed to generate brand strategy" });
+    console.error("❌ Error generating brand strategy:", error);
+    res.status(500).json({ error: "Failed to generate brand strategy", details: error.message });
   }
 };
