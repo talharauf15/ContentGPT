@@ -1,5 +1,7 @@
 // controllers/landingPageController.js
-import { generateLandingPage } from '../services/llmService.js';
+import PromptLog from "../models/promptLog.js";
+import LandingPageAgent from "../models/LandingPageAgent.js";
+import { generateLLMContent } from '../services/llmService.js';
 
 export const createLandingPage = async (req, res) => {
   try {
@@ -23,7 +25,22 @@ export const createLandingPage = async (req, res) => {
       email,
       phone = '',
       socialLinks = [],
+      model = 'openai', 
+      agent,
+      userId,
+      userName,
     } = inputs;
+
+    await LandingPageAgent.create({
+      companyName,
+      targetAudience,
+      businessPurpose,
+      goal,
+      colorScheme,
+      email,
+      phone,
+      socialLinks,
+    });
 
     // Build final prompt string
     const finalPrompt = `
@@ -48,11 +65,21 @@ Phone: ${phone}
 
 🔗 Social Media Links: ${socialLinks.length ? socialLinks.join(', ') : 'None Provided'}
 
-[Generate full responsive HTML + Tailwind CSS landing page layout with all the sections mentioned, functional form with PHP mail(), scroll animations, Font Awesome icons, and semantic HTML5. Comment code sections for clarity.]
+[Generate full responsive HTML + Tailwind CSS landing page layout with all the sections mentioned, functional form with PHP mail(), scroll animations, Font Awesome icons, and semantic HTML5. Comment code sections for clarity. Only provide me the code nothing else.]
     `;
 
-    // Send to LLM (OpenAI or Gemini)
-    const generatedCode = await generateLandingPage(finalPrompt);
+    // Send to LLM (OpenAI or Gemini based on user input)
+    const generatedCode = await generateLLMContent(finalPrompt, model);
+
+    // Save log to DB
+    const log = await PromptLog.create({
+      prompt: finalPrompt,
+      response: generatedCode,
+      userId,
+      userName,
+      model,
+      agent: "landing-page",
+    });
 
     return res.status(200).json({ result: generatedCode });
   } catch (error) {

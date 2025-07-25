@@ -8,6 +8,9 @@ export const generateBrandStrategy = async ({
   goal,
   customTags,
   model = "openai",
+  agent = "brand-strategy",
+  userId,
+  userName,
 }) => {
   try {
     const response = await api.post("/brand-strategy/generate-strategy", {
@@ -17,6 +20,9 @@ export const generateBrandStrategy = async ({
       goal,
       customTags,
       model,
+      agent,
+      userId,
+      userName,
     });
     return response.data;
   } catch (error) {

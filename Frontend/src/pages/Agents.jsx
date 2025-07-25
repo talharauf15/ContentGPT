@@ -6,6 +6,12 @@ const agents = [
     name: "Brand Strategy Agent",
     description: "Helps create strategies for companies.",
     icon: "✨"
+  },
+  {
+    id: "landing-page",
+    name: "Landing Page Agent",
+    description: "Generates high-conversion, responsive landing pages for your business.",
+    icon: "🖥️"
   }
 ];
 

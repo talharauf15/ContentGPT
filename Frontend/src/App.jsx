@@ -4,7 +4,7 @@ import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@cl
 // import Logs from "./pages/Logs";
 import TestPromptAPI from "./components/testPromptAPI";
 // import Agents from "./pages/Agents";
-import { BrandStrategyAgent, Agents, Home, Logs } from "./pages";
+import { BrandStrategyAgent, Agents, Home, Logs, LandingPageAgent } from "./pages";
 
 function App() {
   return (
@@ -32,6 +32,7 @@ function App() {
             <Route path="/test-prompt" element={<TestPromptAPI />} />
             <Route path="/agents" element={<Agents />} />
             <Route path="/agents/brand-strategy" element={<BrandStrategyAgent />} />
+            <Route path="/agents/landing-page" element={<LandingPageAgent />} />
           </Routes>
         </Router>
       </SignedIn>

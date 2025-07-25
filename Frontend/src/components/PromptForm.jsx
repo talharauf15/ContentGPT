@@ -32,7 +32,7 @@ const PromptForm = () => {
   const [goal, setGoal] = useState("");
   const [customTags, setCustomTags] = useState("");
   const { user } = useUser();
-  
+
   useEffect(() => {
     const fetchPrompts = async () => {
       try {
@@ -61,8 +61,10 @@ const PromptForm = () => {
         goal,
         customTags,
         model: LlmProvider,
+        agent: 'brand-strategy',
+        userId: user.id,
+        userName: user.username,
       });
-
       const finalResponse = result.response || "No response received.";
       setResponse(finalResponse);
 

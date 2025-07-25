@@ -6,8 +6,7 @@ const brandStrategyAgentSchema = new mongoose.Schema({
   businessPurpose: { type: String, required: true },
   goal: { type: String, required: true },
   customTags: { type: String },
-  createdAt: { type: Date, default: Date.now },
-});
+},{ timestamps: true, });
 
 const BrandStrategyAgent = mongoose.model("BrandStrategyAgent", brandStrategyAgentSchema);
 export default BrandStrategyAgent; 
