@@ -10,6 +10,7 @@ import {
 import { getAllPromptLogs } from "../api/promptLogAPI";
 import { useUser } from "@clerk/clerk-react";
 import "./PromptLogList.css";
+import ReactMarkdown from "react-markdown";
 
 const PromptLogList = () => {
   const [logs, setLogs] = useState([]);
@@ -155,13 +156,13 @@ const PromptLogList = () => {
 
                 <div className="response-section">
                   <h4>Response</h4>
-                  <p className="response-text">
+                  <div className="response-text">
                     {isResponseExpanded(log._id)
-                      ? log.response
+                      ? <ReactMarkdown>{log.response}</ReactMarkdown>
                       : log.response.length > 200
-                      ? log.response.slice(0, 200) + "..."
-                      : log.response}
-                  </p>
+                      ? <ReactMarkdown>{log.response.slice(0, 200) + "..."}</ReactMarkdown>
+                      : <ReactMarkdown>{log.response}</ReactMarkdown>}
+                  </div>
                   {log.response.length > 200 && (
                     <button
                       className="expand-btn"
