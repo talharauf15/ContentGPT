@@ -211,6 +211,7 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
   animation: slideUp 0.6s ease-out both;
+  overflow: visible;
 }
 
 @keyframes slideUp {
@@ -285,6 +286,7 @@
 
 .log-content {
   margin-bottom: 1.5rem;
+  overflow: visible;
 }
 
 .prompt-section, .response-section {
@@ -312,6 +314,9 @@
   line-height: 1.6;
   color: #333;
   font-size: 0.9375rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .prompt-text {
@@ -332,7 +337,6 @@
 .expand-btn {
   background: none;
   border: none;
-  color: #764ba2;
   cursor: pointer;
   font-weight: 500;
   font-size: 0.875rem;
@@ -340,7 +344,19 @@
   transition: color 0.2s ease;
 }
 
-.expand-btn:hover {
+.prompt-section .expand-btn {
+  color: #667eea;
+}
+
+.prompt-section .expand-btn:hover {
+  color: #5a4a7a;
+}
+
+.response-section .expand-btn {
+  color: #764ba2;
+}
+
+.response-section .expand-btn:hover {
   color: #5a4a7a;
 }
 

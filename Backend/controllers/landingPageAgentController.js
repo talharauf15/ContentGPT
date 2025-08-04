@@ -43,8 +43,7 @@ export const createLandingPage = async (req, res) => {
     });
 
     // Build final prompt string
-    const finalPrompt = `
-✨ Act as a senior full-stack web developer and UI/UX designer who builds high-conversion, fast-loading, and fully responsive landing pages with:
+    const finalPrompt = `✨ Act as a senior full-stack web developer and UI/UX designer who builds high-conversion, fast-loading, and fully responsive landing pages with:
 ✅ Semantic HTML5
 ✅ Tailwind CSS via CDN
 ✅ Vanilla JavaScript only (no frameworks)

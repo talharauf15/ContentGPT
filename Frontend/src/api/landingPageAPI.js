@@ -31,7 +31,7 @@ export const generateLandingPage = async ({
       userId,
       userName,
     });
-    console.log("Response:", response.data.result);
+
     return response.data;
   } catch (error) {
     console.error("Error generating landing page:", error.response?.data || error.message);

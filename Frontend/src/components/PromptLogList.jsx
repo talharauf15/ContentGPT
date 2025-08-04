@@ -16,7 +16,7 @@ const PromptLogList = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [refreshing, setRefreshing] = useState(false);
-  const [expandedLogs, setExpandedLogs] = useState({}); 
+  const [expandedResponses, setExpandedResponses] = useState({}); 
 
   const { user } = useUser();
 
@@ -65,10 +65,10 @@ const PromptLogList = () => {
     return `${Math.floor(diffInSeconds / 86400)}d ago`;
   };
 
-  const isExpanded = (logId) => expandedLogs[logId];
+  const isResponseExpanded = (logId) => expandedResponses[logId];
 
-  const toggleExpand = (logId) => {
-    setExpandedLogs((prev) => ({
+  const toggleResponseExpand = (logId) => {
+    setExpandedResponses((prev) => ({
       ...prev,
       [logId]: !prev[logId],
     }));
@@ -148,13 +148,15 @@ const PromptLogList = () => {
               <div className="log-content">
                 <div className="prompt-section">
                   <h4>Prompt</h4>
-                  <p className="prompt-text">{log.prompt}</p>
+                  <p className="prompt-text">
+                    {log.prompt}
+                  </p>
                 </div>
 
                 <div className="response-section">
                   <h4>Response</h4>
                   <p className="response-text">
-                    {isExpanded(log._id)
+                    {isResponseExpanded(log._id)
                       ? log.response
                       : log.response.length > 200
                       ? log.response.slice(0, 200) + "..."
@@ -163,9 +165,9 @@ const PromptLogList = () => {
                   {log.response.length > 200 && (
                     <button
                       className="expand-btn"
-                      onClick={() => toggleExpand(log._id)}
+                      onClick={() => toggleResponseExpand(log._id)}
                     >
-                      {isExpanded(log._id) ? "Show less" : "Read more"}
+                      {isResponseExpanded(log._id) ? "Show less" : "Read more"}
                     </button>
                   )}
                 </div>
