@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   User,
   MessageSquare,
@@ -6,6 +6,8 @@ import {
   Sparkles,
   Search,
   RefreshCw,
+  Filter,
+  Copy,
 } from "lucide-react";
 import { getAllPromptLogs } from "../api/promptLogAPI";
 import { useUser } from "@clerk/clerk-react";
@@ -17,7 +19,10 @@ const PromptLogList = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [refreshing, setRefreshing] = useState(false);
-  const [expandedResponses, setExpandedResponses] = useState({}); 
+  const [expandedResponses, setExpandedResponses] = useState({});
+  const [selectedAgent, setSelectedAgent] = useState("all");
+  const [selectedModel, setSelectedModel] = useState("all");
+  const [copiedId, setCopiedId] = useState(null);
 
   const { user } = useUser();
 
@@ -51,10 +56,24 @@ const PromptLogList = () => {
     if (user) fetchLogs();
   }, [user]);
 
-  const filteredLogs = logs.filter((log) =>
-    log.prompt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.response.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const uniqueAgents = useMemo(() => {
+    const set = new Set(logs.map((log) => log.agent || "unknown"));
+    return ["all", ...Array.from(set)];
+  }, [logs]);
+
+  const uniqueModels = useMemo(() => {
+    const set = new Set(logs.map((log) => log.model || "unknown"));
+    return ["all", ...Array.from(set)];
+  }, [logs]);
+
+  const filteredLogs = logs.filter((log) => {
+    const matchesSearch =
+      log.prompt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      log.response.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesAgent = selectedAgent === "all" || (log.agent || "unknown") === selectedAgent;
+    const matchesModel = selectedModel === "all" || (log.model || "unknown") === selectedModel;
+    return matchesSearch && matchesAgent && matchesModel;
+  });
 
   const formatTimeAgo = (dateString) => {
     const now = new Date();
@@ -73,6 +92,16 @@ const PromptLogList = () => {
       ...prev,
       [logId]: !prev[logId],
     }));
+  };
+
+  const handleCopyPrompt = async (logId, text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedId(logId);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch (err) {
+      console.error("Failed to copy prompt", err);
+    }
   };
 
   if (loading) {
@@ -115,6 +144,26 @@ const PromptLogList = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
+          <div className="select-box">
+            <Filter className="select-icon" />
+            <select value={selectedAgent} onChange={(e) => setSelectedAgent(e.target.value)}>
+              {uniqueAgents.map((agent) => (
+                <option key={agent} value={agent}>
+                  {agent === "all" ? "All agents" : agent}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="select-box">
+            <Filter className="select-icon" />
+            <select value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)}>
+              {uniqueModels.map((model) => (
+                <option key={model} value={model}>
+                  {model === "all" ? "All models" : model}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -145,6 +194,11 @@ const PromptLogList = () => {
                   <span>{formatTimeAgo(log.createdAt)}</span>
                 </div>
               </div>
+
+                <div className="badge-row">
+                  <span className="badge">{log.agent || "unknown"}</span>
+                  <span className="badge ghost">{log.model || "unknown"}</span>
+                </div>
 
               <div className="log-content">
                 <div className="prompt-section">
