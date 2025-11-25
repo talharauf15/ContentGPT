@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "./Agents.css";
 
 const agents = [
   {
@@ -17,36 +18,40 @@ const agents = [
 
 const Agents = () => {
   const navigate = useNavigate();
+
+  const handleNavigate = id => navigate(`/agents/${id}`);
+
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Available Agents</h1>
-      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', marginTop: '2rem' }}>
+    <div className="agents-page">
+      <header className="agents-hero">
+        <p className="hero-tag">AI-POWERED TEAM</p>
+        <h1>Choose the right agent for your workflow</h1>
+        <p className="hero-subtitle">
+          Jump into specialized assistants that accelerate brand strategy, landing pages,
+          and more—built for teams who move fast.
+        </p>
+      </header>
+
+      <section className="agents-grid">
         {agents.map(agent => (
-          <div
+          <article
             key={agent.id}
-            onClick={() => navigate(`/agents/${agent.id}`)}
-            style={{
-              cursor: 'pointer',
-              border: '1px solid #ccc',
-              borderRadius: '12px',
-              padding: '2rem',
-              minWidth: '220px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
-              transition: 'box-shadow 0.2s',
-              background: '#fff',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
+            className="agent-card"
+            onClick={() => handleNavigate(agent.id)}
+            onKeyDown={e => (e.key === "Enter" || e.key === " ") && handleNavigate(agent.id)}
             tabIndex={0}
-            onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && navigate(`/agents/${agent.id}`)}
+            role="button"
+            aria-label={`Open ${agent.name}`}
           >
-            <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{agent.icon}</div>
-            <h2 style={{ margin: 0 }}>{agent.name}</h2>
-            <p style={{ color: '#666', marginTop: '0.5rem', textAlign: 'center' }}>{agent.description}</p>
-          </div>
+            <div className="agent-icon">{agent.icon}</div>
+            <div className="agent-content">
+              <h2>{agent.name}</h2>
+              <p>{agent.description}</p>
+            </div>
+            <span className="agent-cta">Open agent →</span>
+          </article>
         ))}
-      </div>
+      </section>
     </div>
   );
 };

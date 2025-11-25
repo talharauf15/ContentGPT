@@ -154,53 +154,90 @@ const PromptForm = () => {
         )}
 
         <div className="form-content">
-          <LLMSelector selectedProvider={LlmProvider} onChange={setLlmProvider} />
+          <div className="llm-strip">
+            <div className="llm-selector-wrap">
+              <LLMSelector selectedProvider={LlmProvider} onChange={setLlmProvider} />
+            </div>
+            <div className="llm-highlight">
+              <Sparkles className="icon-small" />
+              <div>
+                <p>Adaptive creativity</p>
+                <span>Switch engines any time to match tone and rigor.</span>
+              </div>
+            </div>
+          </div>
 
           {manualMode ? (
             <form onSubmit={handleManualSubmit} className="prompt-form">
-              <input
-                type="text"
-                placeholder="Company Name"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                className="prompt-textarea"
-                required
-              />
-              <input
-                type="text"
-                placeholder="Target Audience"
-                value={targetAudience}
-                onChange={(e) => setTargetAudience(e.target.value)}
-                className="prompt-textarea"
-                required
-              />
-              <select
-                value={businessPurpose}
-                onChange={(e) => setBusinessPurpose(e.target.value)}
-                className="prompt-textarea"
-                required
-              >
-                <option value="">Select Business Purpose</option>
-                <option value="1">Company Profile</option>
-                <option value="2">Social Media Content</option>
-                <option value="3">Viral Launch Post</option>
-                <option value="4">Full SEO Website Copy</option>
-              </select>
-              <input
-                type="text"
-                placeholder="Main Goal / CTA (e.g., Get Leads)"
-                value={goal}
-                onChange={(e) => setGoal(e.target.value)}
-                className="prompt-textarea"
-                required
-              />
-              <textarea
-                rows={4}
-                placeholder="Instructions, tags, cultural context, or keywords (Optional)"
-                value={customTags}
-                onChange={(e) => setCustomTags(e.target.value)}
-                className="prompt-textarea"
-              />
+              <div className="input-grid">
+                <label className="field-group">
+                  <span className="field-label">Company Name</span>
+                  <input
+                    type="text"
+                    placeholder="ex. Atlas BioLabs"
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
+                    className="prompt-input"
+                    required
+                  />
+                </label>
+                <label className="field-group">
+                  <span className="field-label">Target Audience</span>
+                  <input
+                    type="text"
+                    placeholder="ex. Growth oriented biotech CMOs"
+                    value={targetAudience}
+                    onChange={(e) => setTargetAudience(e.target.value)}
+                    className="prompt-input"
+                    required
+                  />
+                </label>
+              </div>
+
+              <label className="field-group">
+                <span className="field-label">Business Purpose</span>
+                <select
+                  value={businessPurpose}
+                  onChange={(e) => setBusinessPurpose(e.target.value)}
+                  className="prompt-input"
+                  required
+                >
+                  <option value="">Select Business Purpose</option>
+                  <option value="1">Company Profile</option>
+                  <option value="2">Social Media Content</option>
+                  <option value="3">Viral Launch Post</option>
+                  <option value="4">Full SEO Website Copy</option>
+                </select>
+              </label>
+
+              <label className="field-group">
+                <span className="field-label">Main Goal / CTA</span>
+                <input
+                  type="text"
+                  placeholder="ex. Drive 50 demo signups"
+                  value={goal}
+                  onChange={(e) => setGoal(e.target.value)}
+                  className="prompt-input"
+                  required
+                />
+              </label>
+
+              <label className="field-group">
+                <span className="field-label">Context & Tags (Optional)</span>
+                <textarea
+                  rows={4}
+                  placeholder="Tone, cultural cues, campaign hooks, existing slogans..."
+                  value={customTags}
+                  onChange={(e) => setCustomTags(e.target.value)}
+                  className="prompt-input textarea"
+                />
+              </label>
+
+              <p className="helper-note">
+                Give the agent vivid details—events, product launches, or constraints—to keep messaging
+                uniquely yours.
+              </p>
+
               <button type="submit" className="submit-button" disabled={isLoading}>
                 {isLoading ? (
                   <>
@@ -217,10 +254,16 @@ const PromptForm = () => {
             </form>
           ) : (
             <div className="saved-mode">
-              <h3 className="saved-title">
-                <Clock className="icon-medium" />
-                Choose from Saved Prompts
-              </h3>
+              <div className="saved-title">
+                <div className="saved-label">
+                  <Clock className="icon-medium" />
+                  <div>
+                    <h3>Saved Prompt Library</h3>
+                    <p>Reuse high-performing strategies from your workspace history.</p>
+                  </div>
+                </div>
+                <span className="saved-count">{prompts.length} prompts</span>
+              </div>
 
               {prompts.length === 0 ? (
                 <div className="empty-state">
