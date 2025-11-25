@@ -250,15 +250,18 @@ const LandingPageAgent = () => {
             testimonials, and CTA stacks automatically.
           </p>
           <div className="hero-stats">
-            {dataHighlights.map(({ label, value, icon: Icon }) => (
-              <article key={label} className="stat-pill">
-                <Icon size={22} />
-                <div>
-                  <span className="stat-value">{value}</span>
-                  <p>{label}</p>
-                </div>
-              </article>
-            ))}
+            {dataHighlights.map(({ label, value, icon }) => {
+              const Icon = icon;
+              return (
+                <article key={label} className="stat-pill">
+                  <Icon size={22} />
+                  <div>
+                    <span className="stat-value">{value}</span>
+                    <p>{label}</p>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
         <div className="hero-card">

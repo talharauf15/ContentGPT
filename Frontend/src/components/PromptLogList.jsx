@@ -7,7 +7,6 @@ import {
   Search,
   RefreshCw,
   Filter,
-  Copy,
 } from "lucide-react";
 import { getAllPromptLogs } from "../api/promptLogAPI";
 import { useUser } from "@clerk/clerk-react";
@@ -22,7 +21,6 @@ const PromptLogList = () => {
   const [expandedResponses, setExpandedResponses] = useState({});
   const [selectedAgent, setSelectedAgent] = useState("all");
   const [selectedModel, setSelectedModel] = useState("all");
-  const [copiedId, setCopiedId] = useState(null);
 
   const { user } = useUser();
 
@@ -92,16 +90,6 @@ const PromptLogList = () => {
       ...prev,
       [logId]: !prev[logId],
     }));
-  };
-
-  const handleCopyPrompt = async (logId, text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedId(logId);
-      setTimeout(() => setCopiedId(null), 2000);
-    } catch (err) {
-      console.error("Failed to copy prompt", err);
-    }
   };
 
   if (loading) {

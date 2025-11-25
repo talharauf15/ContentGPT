@@ -69,15 +69,18 @@ const BrandStrategyAgent = () => (
     </section>
 
     <section className="feature-grid">
-      {highlights.map(({ title, description, icon: Icon }) => (
-        <article key={title} className="feature-card">
-          <div className="feature-icon">
-            <Icon size={22} />
-          </div>
-          <h4>{title}</h4>
-          <p>{description}</p>
-        </article>
-      ))}
+      {highlights.map(({ title, description, icon }) => {
+        const Icon = icon;
+        return (
+          <article key={title} className="feature-card">
+            <div className="feature-icon">
+              <Icon size={22} />
+            </div>
+            <h4>{title}</h4>
+            <p>{description}</p>
+          </article>
+        );
+      })}
     </section>
 
     <section className="brand-form-shell">
