@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/clerk-react";
-// import Home from "./pages/Home";
-// import Logs from "./pages/Logs";
 import TestPromptAPI from "./components/testPromptAPI";
-// import Agents from "./pages/Agents";
-import { BrandStrategyAgent, Agents, Home, Logs, LandingPageAgent } from "./pages";
+import Home from "./pages/Home";
+import Logs from "./pages/Logs";
+import Agents from "./pages/Agents";
+import BrandStrategyAgent from "./pages/BrandStrategyAgent";
+import LandingPageAgent from "./pages/LandingPageAgent";
 import "./App.css";
 
 function Navigation() {
