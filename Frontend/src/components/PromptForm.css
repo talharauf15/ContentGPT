@@ -1,21 +1,20 @@
 .prompt-form-container {
-    min-height: 80vh; 
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #eef2ff 0%, #fdf2ff 100%);
+    padding: 2.5rem 1.5rem;
     display: flex;
-    align-items: start;
+    align-items: center;
     justify-content: center;
+    border-radius: 24px;
   }
   
   .prompt-form-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
+    background: #ffffff;
+    border-radius: 32px;
+    box-shadow: 0 35px 80px rgba(79, 70, 229, 0.15);
+    padding: 2.75rem;
     width: 100%;
-    max-width: 100%;
+    max-width: 1100px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
     animation: slideUp 0.6s ease-out;
   }
   
@@ -156,43 +155,135 @@
 
   .form-content {
     margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
   
   .prompt-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .llm-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .llm-selector-wrap {
+    flex: 1 1 320px;
+    min-width: 280px;
+  }
+
+  .llm-highlight {
+    flex: 1 1 240px;
+    background: rgba(79, 70, 229, 0.08);
+    border-radius: 18px;
+    padding: 1rem 1.25rem;
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    color: #312e81;
+  }
+
+  .llm-highlight p {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .llm-highlight span {
+    font-size: 0.9rem;
+    color: #4338ca;
   }
   
   .textarea-container {
     position: relative;
   }
   
+  .input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .field-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #475467;
+  }
+
+  .prompt-input {
+    width: 100%;
+    padding: 1.1rem;
+    border: 1.5px solid rgba(148, 163, 184, 0.6);
+    border-radius: 18px;
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: all 0.25s ease;
+    background: #f8fafc;
+    font-family: inherit;
+    color: #0f172a;
+    box-sizing: border-box;
+  }
+
+  /* Legacy support for components still using prompt-textarea */
   .prompt-textarea {
     width: 100%;
-    padding: 1.25rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 16px;
+    padding: 1.1rem;
+    border: 1.5px solid rgba(148, 163, 184, 0.6);
+    border-radius: 18px;
     font-size: 1rem;
-    line-height: 1.6;
-    resize: vertical;
-    transition: all 0.3s ease;
-    background: #fafafa;
+    line-height: 1.5;
+    transition: all 0.25s ease;
+    background: #f8fafc;
     font-family: inherit;
+    color: #0f172a;
     box-sizing: border-box;
-    color: black;
+    resize: vertical;
   }
   
   .prompt-textarea:focus {
     outline: none;
-    border-color: #3B82F6;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-    background: white;
+    border-color: #6366f1;
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
+    background: #ffffff;
   }
   
-  .prompt-textarea:disabled {
+  .prompt-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
+    background: #ffffff;
+  }
+  
+  .prompt-input:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+
+  .prompt-input.textarea {
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  .helper-note {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6366f1;
+    background: rgba(99, 102, 241, 0.08);
+    padding: 0.75rem 1rem;
+    border-radius: 14px;
   }
   
   .character-count {
@@ -235,14 +326,44 @@
     transform: none;
   }
   
+  .saved-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
   .saved-title {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .saved-label {
+    display: flex;
+    align-items: flex-start;
     gap: 0.75rem;
-    font-size: 1.25rem;
+  }
+
+  .saved-label h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: #111827;
+  }
+
+  .saved-label p {
+    margin: 0.25rem 0 0;
+    color: #6b7280;
+  }
+
+  .saved-count {
+    font-size: 0.85rem;
     font-weight: 600;
-    color: #374151;
-    margin-bottom: 1.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(17, 24, 39, 0.08);
+    color: #111827;
   }
   
   .empty-state {

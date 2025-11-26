@@ -1,7 +1,165 @@
-  
+.logs-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2.5rem 2rem 3rem;
+}
+
+.logs-hero {
+  background: white;
+  border-radius: 28px;
+  padding: 2rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: center;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 20px 55px rgba(15, 23, 42, 0.08);
+}
+
+.hero-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  color: #6366f1;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.logs-hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 2.7rem);
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.hero-subtext {
+  margin-top: 0.75rem;
+  color: #475467;
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.outline-btn,
+.primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 12px;
+  padding: 0.75rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.outline-btn {
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  background: transparent;
+  color: #0f172a;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+}
+
+.outline-btn:hover,
+.primary-btn:hover {
+  transform: translateY(-2px);
+}
+
+.logs-insights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.insight-card {
+  background: white;
+  border-radius: 22px;
+  padding: 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.insight-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+}
+
+.insight-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.insight-sub {
+  color: #475467;
+}
+
+.logs-table-shell {
+  background: white;
+  border-radius: 28px;
+  padding: 2rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.08);
+}
+
+.logs-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.table-title {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.table-title h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #0f172a;
+}
+
+.table-title p {
+  margin: 0.25rem 0 0;
+  color: #475467;
+  font-size: 0.9rem;
+}
+
+.logs-table-body {
+  border-radius: 18px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(248, 250, 252, 0.8);
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
   .logs-page {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
+    padding: 1.5rem 1rem 2.5rem;
   }
-  
+
+  .logs-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+}
