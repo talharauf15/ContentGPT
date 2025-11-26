@@ -9,12 +9,15 @@ import {
   Sparkles,
   AlertCircle,
   LoaderCircle,
+  Download,
 } from "lucide-react";
 import "./PromptForm.css";
 import { useUser } from "@clerk/clerk-react";
 import { getAllPrompts } from "../api/promptAPI";
 import { createPromptLog } from "../api/promptLogAPI";
 import { generateBrandStrategy } from "../api/brandingAPI";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 import LLMSelector from "./LLMSelector";
 import ReactMarkdown from "react-markdown";
 
@@ -28,7 +31,7 @@ const PromptForm = () => {
   const [LlmProvider, setLlmProvider] = useState("openai");
   const [companyName, setCompanyName] = useState("");
   const [targetAudience, setTargetAudience] = useState("");
-  const [businessPurpose, setBusinessPurpose] = useState("");
+  const [businessPurposes, setBusinessPurposes] = useState([]);
   const [goal, setGoal] = useState("");
   const [customTags, setCustomTags] = useState("");
   const { user } = useUser();
@@ -49,6 +52,10 @@ const PromptForm = () => {
 
   const handleManualSubmit = async (e) => {
     e.preventDefault();
+    if (businessPurposes.length === 0) {
+      setError("Please select at least one business purpose.");
+      return;
+    }
     setIsLoading(true);
     setError("");
     setResponse("");
@@ -57,7 +64,7 @@ const PromptForm = () => {
       const result = await generateBrandStrategy({
         companyName,
         targetAudience,
-        businessPurpose,
+        businessPurpose: businessPurposes,
         goal,
         customTags,
         model: LlmProvider,
@@ -110,6 +117,128 @@ const PromptForm = () => {
       setIsLoading(false);
       setSelectedPromptId(null);
     }
+  };
+
+  const handleDownloadPdf = async () => {
+    if (!response) return;
+
+    try {
+      const doc = new jsPDF({ unit: "pt", format: "a4" });
+      const element = document.querySelector(".response-content");
+
+      if (!element) {
+        setError("Could not find content to export.");
+        return;
+      }
+
+      // Set margins for better layout
+      const margin = 50;
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const contentWidth = pageWidth - (margin * 2);
+
+      // Temporarily style the element for better PDF rendering
+      const originalWidth = element.style.width;
+      const originalPadding = element.style.padding;
+      const originalBoxSizing = element.style.boxSizing;
+
+      // Set optimal width for PDF (full width with margins)
+      element.style.width = `${contentWidth}px`;
+      element.style.padding = "20px";
+      element.style.boxSizing = "border-box";
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+        width: contentWidth + 40, // Include padding
+      });
+
+      // Restore original styles
+      element.style.width = originalWidth;
+      element.style.padding = originalPadding;
+      element.style.boxSizing = "";
+      element.style.boxSizing = originalBoxSizing;
+
+      const imgData = canvas.toDataURL("image/png");
+      const imgProps = doc.getImageProperties(imgData);
+
+      // Calculate dimensions maintaining aspect ratio
+      const imgWidth = contentWidth;
+      const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+
+      // Add title if company name exists
+      let startY = margin;
+      if (companyName) {
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(18);
+        const title = `Brand Strategy for ${companyName}`;
+        const titleWidth = doc.getTextWidth(title);
+        doc.text(title, (pageWidth - titleWidth) / 2, margin);
+        startY = margin + 30;
+      }
+
+      // Calculate available height per page
+      const availableHeight = pageHeight - startY - margin;
+
+      // Split image across pages properly
+      let yPosition = startY;
+      let sourceY = 0;
+      let remainingHeight = imgHeight;
+      let pageNumber = 0;
+
+      while (remainingHeight > 0) {
+        if (pageNumber > 0) {
+          doc.addPage();
+          yPosition = margin;
+        }
+
+        const heightForThisPage = Math.min(remainingHeight, availableHeight);
+        const sourceHeight = (heightForThisPage / imgHeight) * imgProps.height;
+
+        // Create a canvas for this page slice
+        const pageCanvas = document.createElement("canvas");
+        pageCanvas.width = imgProps.width;
+        pageCanvas.height = sourceHeight;
+        const ctx = pageCanvas.getContext("2d");
+
+        // Draw the slice of the original canvas
+        ctx.drawImage(
+          canvas,
+          0, sourceY, imgProps.width, sourceHeight,
+          0, 0, imgProps.width, sourceHeight
+        );
+
+        const pageImgData = pageCanvas.toDataURL("image/png");
+        doc.addImage(pageImgData, "PNG", margin, yPosition, imgWidth, heightForThisPage);
+
+        remainingHeight -= heightForThisPage;
+        sourceY += sourceHeight;
+        pageNumber++;
+      }
+
+      const fileName = companyName
+        ? `brand-strategy-${companyName}.pdf`
+        : "brand-strategy-output.pdf";
+
+      doc.save(fileName.replace(/\s+/g, "-").toLowerCase());
+    } catch (error) {
+      console.error("Failed to generate PDF:", error);
+      setError("Failed to generate PDF. Please try again.");
+    }
+  };
+
+  const businessPurposeOptions = [{ value: "1", label: "Company Profile" },
+  { value: "2", label: "Social Media Content" },
+  { value: "3", label: "Viral Launch Post" },
+  { value: "4", label: "Full SEO Website Copy" },
+  ];
+
+  const handleBusinessPurposeChange = (value) => {
+    setBusinessPurposes((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
+    );
   };
 
   return (
@@ -194,21 +323,22 @@ const PromptForm = () => {
                 </label>
               </div>
 
-              <label className="field-group">
+              <div className="field-group">
                 <span className="field-label">Business Purpose</span>
-                <select
-                  value={businessPurpose}
-                  onChange={(e) => setBusinessPurpose(e.target.value)}
-                  className="prompt-input"
-                  required
-                >
-                  <option value="">Select Business Purpose</option>
-                  <option value="1">Company Profile</option>
-                  <option value="2">Social Media Content</option>
-                  <option value="3">Viral Launch Post</option>
-                  <option value="4">Full SEO Website Copy</option>
-                </select>
-              </label>
+                <div className="checkbox-group">
+                  {businessPurposeOptions.map((option) => (
+                    <label key={option.value} className="checkbox-item">
+                      <input
+                        type="checkbox"
+                        value={option.value}
+                        checked={businessPurposes.includes(option.value)}
+                        onChange={() => handleBusinessPurposeChange(option.value)}
+                      />
+                      <span>{option.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
 
               <label className="field-group">
                 <span className="field-label">Main Goal / CTA</span>
@@ -308,10 +438,20 @@ const PromptForm = () => {
 
         {response && (
           <div className="response-section">
-            <h4 className="response-title">
-              <Sparkles className="icon-medium" />
-              AI Response
-            </h4>
+            <div className="response-header-row">
+              <h4 className="response-title">
+                <Sparkles className="icon-medium" />
+                AI Response
+              </h4>
+              <button
+                type="button"
+                className="download-button"
+                onClick={handleDownloadPdf}
+              >
+                <Download className="icon-small" />
+                Download PDF
+              </button>
+            </div>
             <div className="response-content">
               <ReactMarkdown>{response}</ReactMarkdown>
             </div>
