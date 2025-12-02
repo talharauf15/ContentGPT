@@ -16,8 +16,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "jszip": "^3.10.1",
     "mongoose": "^8.16.0",
     "nodemon": "^3.1.10",
-    "openai": "^5.5.1"
+    "openai": "^5.5.1",
+    "pdf-lib": "^1.17.1",
+    "puppeteer": "^23.11.1"
   }
 }
