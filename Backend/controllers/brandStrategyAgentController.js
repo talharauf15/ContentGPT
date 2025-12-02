@@ -144,7 +144,9 @@ Make sure to:
 ${section}
 `;
     let aiResponse = "";
-    if (model === "openai" || model === "gemini") {
+    if (model === "openai" || model === "gemini") {    console.time('llm');
+      aiResponse = await generateLLMContent(prompt, model);
+      console.timeEnd('llm');
       aiResponse = await generateLLMContent(prompt, model);
     } else {
       return res.status(400).json({ error: "Invalid model. Only 'openai' or 'gemini' are supported." });

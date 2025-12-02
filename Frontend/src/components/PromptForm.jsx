@@ -17,6 +17,7 @@ import { createPromptLog } from "../api/promptLogAPI";
 import { generateBrandStrategy } from "../api/brandingAPI";
 import LLMSelector from "./LLMSelector";
 import ReactMarkdown from "react-markdown";
+import PdfDownloadButton from "./PdfDownloadButton";
 
 const PromptForm = () => {
   const [manualMode, setManualMode] = useState(true);
@@ -39,7 +40,7 @@ const PromptForm = () => {
         const data = await getAllPrompts();
         setPrompts(data);
       } catch (err) {
-        console.error("❌ Failed to fetch prompts:", err);
+        console.error("Failed to fetch prompts:", err);
         setError("Failed to load prompts.");
       }
     };
@@ -80,7 +81,7 @@ const PromptForm = () => {
       }
     } catch (err) {
       setError("Something went wrong. Please try again.");
-      console.error("❌ Error generating strategy:", err);
+      console.error("Error generating strategy:", err);
     } finally {
       setIsLoading(false);
     }
@@ -104,7 +105,7 @@ const PromptForm = () => {
       });
       setResponse(result.response);
     } catch (error) {
-      console.error("❌ Error submitting saved prompt:", error);
+      console.error("Error submitting saved prompt:", error);
       setResponse("Failed to save prompt log.");
     } finally {
       setIsLoading(false);
@@ -308,10 +309,18 @@ const PromptForm = () => {
 
         {response && (
           <div className="response-section">
-            <h4 className="response-title">
-              <Sparkles className="icon-medium" />
-              AI Response
-            </h4>
+            <div className="response-header-row">
+              <h4 className="response-title">
+                <Sparkles className="icon-medium" />
+                AI Response
+              </h4>
+              <PdfDownloadButton
+                text={response}
+                title={companyName ? `${companyName}-brand-strategy` : "brand-strategy"}
+                autoDownload={true}
+                zip={true}
+              />
+            </div>
             <div className="response-content">
               <ReactMarkdown>{response}</ReactMarkdown>
             </div>
